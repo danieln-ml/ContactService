@@ -183,7 +183,7 @@ module.exports = o({
     // Security Note: This is secured by virtue of the CollectionAcl defined
     // on this Collection endpoint which ensures this id is the same as the 
     // authenticated User's _id or the User is an admin. 
-    return this.getCollection().remove({ _id: id }) 
+    return this.getCollection().remove({ _id: id }).result.n === 1
   },
 
   /****************************************************************************************************************

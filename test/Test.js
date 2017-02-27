@@ -5,22 +5,6 @@ var __     = carbon.fibers.__(module).main
 var assert = require('assert')
 
 /***************************************************************************************************
- * TEST_USER_ID
- *
- * Module variable to hold the _id of the test User object we create. Helpful since _id values
- * are auto-generated. 
- */
-var TEST_USER_ID = undefined
-
-/***************************************************************************************************
- * TEST_USER_API_KEY
- *
- * Module variable to hold the apiKey of the test User object we create. Helpful since these values
- * are auto-generated. 
- */
-var TEST_USER_API_KEY = undefined
-
-/***************************************************************************************************
  * Test
  */
 __(function() {
@@ -82,8 +66,6 @@ __(function() {
           statusCode: 201,
           body: function(body) {
             assert(body.email === 'bob@jones.com')
-            // XXX we want to assert more here 
-            return true
           },
         }
       },
@@ -91,24 +73,22 @@ __(function() {
       // Test that we can lookup that user
       {
         name: "GET /users/:_id",
-        reqSpec: function(previousResponse) { // We need the previous response to get the _id
-          // Here we will remember the _id of the user via TEST_USER_ID
-          TEST_USER_ID = previousResponse.body._id
-          TEST_USER_API_KEY = previousResponse.body.apiKey
+        reqSpec: function(context) { // We need the previous response to get the _id
+          var testUser = context.httpHistory.getRes(0).body
           return {
-            url: `/users/${TEST_USER_ID}`,
+            url: `/users/${testUser._id}`,
             method: "GET",
             headers: {
-              'Api-Key': previousResponse.body.apiKey
+              'Api-Key': testUser.apiKey
             }
           }
         },
         resSpec: {
           statusCode: 200,
-          body: function(body) {
-            assert(body._id == TEST_USER_ID)
+          body: function(body, context) {
+            var testUser = context.httpHistory.getRes(0).body
+            assert(body._id == testUser._id)
             assert(body.email === "bob@jones.com")
-            return true
           }
         }
       },
@@ -116,12 +96,13 @@ __(function() {
       // Test updating user
       {
         name: "PATCH /users/:_id",
-        reqSpec: function() {
+        reqSpec: function(context) {
+          var testUser = context.httpHistory.getRes(0).body
           return {
-            url: `/users/${TEST_USER_ID}`,
+            url: `/users/${testUser._id}`,
             method: "PATCH",
             headers: {
-              'Api-Key': TEST_USER_API_KEY
+              'Api-Key': testUser.apiKey
             },
             body: {
               email: "bobby@jones.com",
@@ -136,12 +117,13 @@ __(function() {
       // Test update worked
       {
         name: "GET /users/:_id",
-        reqSpec: function() {
+        reqSpec: function(context) {
+          var testUser = context.httpHistory.getRes(0).body
           return {
-            url: `/users/${TEST_USER_ID}`,
+            url: `/users/${testUser._id}`,
             method: "GET",
             headers: {
-              'Api-Key': TEST_USER_API_KEY
+              'Api-Key': testUser.apiKey
             }
           }
         },
@@ -149,7 +131,6 @@ __(function() {
           statusCode: 200,
           body: function(body) {
             assert(body.email === "bobby@jones.com")
-            return true
           }
         }
       },
@@ -157,12 +138,13 @@ __(function() {
       // Test adding a Contact
       {
         name: "POST /users/:user/contacts",
-        reqSpec: function() {
+        reqSpec: function(context) {
+          var testUser = context.httpHistory.getRes(0).body
           return {
-            url: `/users/${TEST_USER_ID}/contacts`,
+            url: `/users/${testUser._id}/contacts`,
             method: "POST",
             headers: {
-              'Api-Key': TEST_USER_API_KEY
+              'Api-Key': testUser.apiKey
             },
             body: {
               firstName: "Mary",
@@ -182,12 +164,13 @@ __(function() {
       // Test finding that contact by email
       {
         name: "POST /users/:user/contacts",
-        reqSpec: function() {
+        reqSpec: function(context) {
+          var testUser = context.httpHistory.getRes(0).body
           return {
-            url: `/users/${TEST_USER_ID}/contacts`,
+            url: `/users/${testUser._id}/contacts`,
             method: "GET",
             headers: {
-              'Api-Key': TEST_USER_API_KEY
+              'Api-Key': testUser.apiKey
             },
             parameters: {
               query: "mary@smith.com"
@@ -202,30 +185,34 @@ __(function() {
       // Lookup previous object by _id and check they are the same
       {
         name: "GET /users/:user/contacts/:_id",
-        reqSpec: function(previousResponse) {
+        reqSpec: function(context) {
+          var testUser = context.httpHistory.getRes(0).body
+          var previousResponse = context.httpHistory.getRes(-1)
           return {
-            url: `/users/${TEST_USER_ID}/contacts/${previousResponse.body[0]._id}`,
+            url: `/users/${testUser._id}/contacts/${previousResponse.body[0]._id}`,
             method: "GET",
             headers: {
-              'Api-Key': TEST_USER_API_KEY
+              'Api-Key': testUser.apiKey
             }
           }
         },
-        resSpec: function(response, previousResponse) {
+        resSpec: function(response, context) {
+          var previousResponse = context.httpHistory.getRes(-1)
           assert.deepEqual(response.body, previousResponse.body[0])
-          return true
         }
       },
 
       // Test saving the contact
       {
         name: "PUT /users/:user/contacts/:_id",
-        reqSpec: function(previousResponse) {
+        reqSpec: function(context) {
+          var testUser = context.httpHistory.getRes(0).body
+          var previousResponse = context.httpHistory.getRes(-1)
           return {
-            url: `/users/${TEST_USER_ID}/contacts/${previousResponse.body._id}`,
+            url: `/users/${testUser._id}/contacts/${previousResponse.body._id}`,
             method: "PUT",
             headers: {
-              'Api-Key': TEST_USER_API_KEY
+              'Api-Key': testUser.apiKey
             },
             body: {
               _id: previousResponse.body._id,
@@ -243,16 +230,17 @@ __(function() {
         }
       },
 
-      /* XXX this is not working
       // Test removing the contact
       {
         name: "DELETE /users/:user/contacts/:_id",
-        reqSpec: function(previousResponse) {
+        reqSpec: function(context) {
+          var testUser = context.httpHistory.getRes(0).body
+          var testContact = context.httpHistory.getRes(-2).body
           return {
-            url: `/users/${TEST_USER_ID}/contacts/${previousResponse.body._id}`,
+            url: `/users/${testUser._id}/contacts/${testContact._id}`,
             method: "DELETE",
             headers: {
-              'Api-Key': TEST_USER_API_KEY
+              'Api-Key': testUser.apiKey
             }
           }
         },
@@ -260,17 +248,17 @@ __(function() {
           statusCode: 200
         }
       },
-      */
 
       // Test DELETE /users/:_id worked (save this for the end of the test run)
       {
         name: "DELETE /users/:_id",
-        reqSpec: function() {
+        reqSpec: function(context) {
+          var testUser = context.httpHistory.getRes(0).body
           return {
-            url: `/users/${TEST_USER_ID}`,
+            url: `/users/${testUser._id}`,
             method: "DELETE",
             headers: {
-              'Api-Key': TEST_USER_API_KEY
+              'Api-Key': testUser.apiKey
             }
           }
         },
@@ -282,12 +270,13 @@ __(function() {
       // Test DELETE /users/:_id worked by checking if user is gone
       {
         name: "GET /users/:_id",
-        reqSpec: function() {
+        reqSpec: function(context) {
+          var testUser = context.httpHistory.getRes(0).body
           return {
-            url: `/users/${TEST_USER_ID}`,
+            url: `/users/${testUser._id}`,
             method: "GET",
             headers: {
-              'Api-Key': TEST_USER_API_KEY
+              'Api-Key': testUser.apiKey
             }
           }
         },
@@ -295,7 +284,7 @@ __(function() {
           statusCode: 401 // Since user is gone we don't get a 404. We can't even authenticate!
         }
       },
-        
+
     ]
 
   })
