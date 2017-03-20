@@ -9,7 +9,7 @@ var _        = require('lodash')
  * This is the /users Endpoint. It is a Collection. It is also the root 
  * endpoint for all other endpoints (i.e. /users/:user/contacts)
  * 
- * One core function of the Enpoint is to enforce the security contraint 
+ * One core function of the Endpoint is to enforce the security contraint 
  * that req.user._id === :user for all sub-endpoints (except for 
  * admin users). It does this via an acl that is a CollectionAcl with 
  * 'selfAndBelow' set to true. 
