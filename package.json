@@ -12,7 +12,7 @@
     "lodash": "4.17.*"
   },
   "scripts": {
-    "test": "node test/Test"
+    "test": "node test/ContactServiceTest"
   },
   "preferGlobal": false
 }
