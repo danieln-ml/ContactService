@@ -73,33 +73,15 @@ Insert an object into this Collection.
 201
 </td>
 <td>
-Returns the object inserted, along with the URL of the newly inserted object in the Location header of the response.
+Returns the URL of the newly inserted object in the Location header of the response.
 </td>
 <td>
-<pre>"Location"
+<pre>"Location\ncarbonio-id"
 </pre>
 </td>
 <td>
 <pre><code>{
-  "type": "object",
-  "properties": {
-    "_id": {
-      "type": "string"
-    },
-    "email": {
-      "type": "string",
-      "format": "email"
-    },
-    "apiKey": {
-      "type": "string"
-    }
-  },
-  "required": [
-    "_id",
-    "email",
-    "apiKey"
-  ],
-  "additionalProperties": false
+  "type": "Undefined"
 }
 </code></pre>
 </td>

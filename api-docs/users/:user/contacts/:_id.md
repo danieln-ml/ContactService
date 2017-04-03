@@ -58,25 +58,6 @@ Find an object in this Collection by _id.
 
 
 
-
-<tr>
-<td valign="top"> view </td>
-<td valign="top"> View </td>
-<td valign="top"> no </td>
-<td valign="top"> query </td>
-<td valign="top"> 
-<code>null</code>
-</td>
-<td valign="top">
-<pre><code>{
-  "type": "string"
-}
-</code></pre>
-</td>
-</tr>
-
-
-
 </table>
 
 
@@ -404,13 +385,13 @@ Save an object to this Collection. Will insert if does not exist.
 </tr>
 <tr>
 <td>
-200
+201
 </td>
 <td>
-Returns no content.
+Returns the URL of the newly inserted object in the Location header of the response.
 </td>
 <td>
-<pre>null
+<pre>"Location\ncarbonio-id"
 </pre>
 </td>
 <td>
@@ -422,52 +403,18 @@ Returns no content.
 </tr>
 <tr>
 <td>
-201
+204
 </td>
 <td>
-Returns the object inserted, along with the URL of the newly inserted object in the Location header of the response.
+Returns no content.
 </td>
 <td>
-<pre>"Location"
+<pre>null
 </pre>
 </td>
 <td>
 <pre><code>{
-  "type": "object",
-  "properties": {
-    "_id": {
-      "type": "string"
-    },
-    "firstName": {
-      "type": "string"
-    },
-    "lastName": {
-      "type": "string"
-    },
-    "email": {
-      "type": "string",
-      "format": "email"
-    },
-    "phoneNumbers": {
-      "type": "object",
-      "properties": {
-        "home": {
-          "type": "string"
-        },
-        "work": {
-          "type": "string"
-        },
-        "mobile": {
-          "type": "string"
-        }
-      }
-    }
-  },
-  "required": [
-    "_id",
-    "firstName"
-  ],
-  "additionalProperties": false
+  "type": "Undefined"
 }
 </code></pre>
 </td>
@@ -646,7 +593,7 @@ Remove an object from this Collection by _id.
 </tr>
 <tr>
 <td>
-200
+204
 </td>
 <td>
 Returns no content.

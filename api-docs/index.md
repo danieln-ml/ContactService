@@ -6,7 +6,7 @@ API for managing Contacts
 
 <pre>
 
-Usage: ContactsApi &lt;command&gt; [options]
+Usage: ContactService.js &lt;command&gt; [options]
 
 command     
   start-server        start the api server
@@ -16,7 +16,7 @@ Options:
    -v VERBOSITY, --verbosity VERBOSITY   verbosity level (trace | debug | info | warn | error | fatal)
 
 Environment variables: 
-  &lt;none&gt;
+  DB_URI - URI for the MongoDB database to connect to. Defaults to &#x27;mongodb://localhost:27017/contacts&#x27;
 
 </pre>
 

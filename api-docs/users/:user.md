@@ -40,25 +40,6 @@ Find an object in this Collection by _id.
 
 
 
-
-<tr>
-<td valign="top"> view </td>
-<td valign="top"> View </td>
-<td valign="top"> no </td>
-<td valign="top"> query </td>
-<td valign="top"> 
-<code>null</code>
-</td>
-<td valign="top">
-<pre><code>{
-  "type": "string"
-}
-</code></pre>
-</td>
-</tr>
-
-
-
 </table>
 
 
@@ -94,15 +75,11 @@ Returns the object resource found at this URL specified by id.
     "email": {
       "type": "string",
       "format": "email"
-    },
-    "apiKey": {
-      "type": "string"
     }
   },
   "required": [
     "_id",
-    "email",
-    "apiKey"
+    "email"
   ],
   "additionalProperties": false
 }
@@ -286,7 +263,7 @@ Update an object in this Collection.
 
 <tr>
 <td valign="top"> body </td>
-<td valign="top"> Update spec (JSON). Update operator (e.g {&#x27;$inc&#x27;: {&#x27;n&#x27;: 1}}) </td>
+<td valign="top"> Update spec (JSON). Update operator (e.g {&quot;$inc&quot;: {&quot;n&quot;: 1}}) </td>
 <td valign="top"> yes </td>
 <td valign="top"> body </td>
 <td valign="top"> 
@@ -328,7 +305,7 @@ Update an object in this Collection.
 </tr>
 <tr>
 <td>
-200
+204
 </td>
 <td>
 Returns no content.
@@ -534,7 +511,7 @@ Remove an object from this Collection by _id.
 </tr>
 <tr>
 <td>
-200
+204
 </td>
 <td>
 Returns no content.

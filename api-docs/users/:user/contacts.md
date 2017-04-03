@@ -59,24 +59,6 @@ Find objects in this Collection.
 
 
 
-<tr>
-<td valign="top"> view </td>
-<td valign="top"> View </td>
-<td valign="top"> no </td>
-<td valign="top"> query </td>
-<td valign="top"> 
-<code>null</code>
-</td>
-<td valign="top">
-<pre><code>{
-  "type": "string"
-}
-</code></pre>
-</td>
-</tr>
-
-
-
 </table>
 
 
@@ -357,49 +339,15 @@ Insert an object into this Collection.
 201
 </td>
 <td>
-Returns the object inserted, along with the URL of the newly inserted object in the Location header of the response.
+Returns the URL of the newly inserted object in the Location header of the response.
 </td>
 <td>
-<pre>"Location"
+<pre>"Location\ncarbonio-id"
 </pre>
 </td>
 <td>
 <pre><code>{
-  "type": "object",
-  "properties": {
-    "_id": {
-      "type": "string"
-    },
-    "firstName": {
-      "type": "string"
-    },
-    "lastName": {
-      "type": "string"
-    },
-    "email": {
-      "type": "string",
-      "format": "email"
-    },
-    "phoneNumbers": {
-      "type": "object",
-      "properties": {
-        "home": {
-          "type": "string"
-        },
-        "work": {
-          "type": "string"
-        },
-        "mobile": {
-          "type": "string"
-        }
-      }
-    }
-  },
-  "required": [
-    "_id",
-    "firstName"
-  ],
-  "additionalProperties": false
+  "type": "Undefined"
 }
 </code></pre>
 </td>
