@@ -12,6 +12,7 @@
     "lodash": "4.17.*"
   },
   "scripts": {
+    "start": "node lib/ContactService",
     "test": "node test/ContactServiceTest"
   },
   "preferGlobal": false
